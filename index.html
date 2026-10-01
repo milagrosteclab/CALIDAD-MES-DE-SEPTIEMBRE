@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Mi Panel de Calidad — Abby & Vicky</title>
+<title>Mi Panel de Calidad — Septiembre</title>
 <style>
   :root{
     --bg:#f5f6f8; --card:#ffffff; --text:#1b1e24; --muted:#6b7280;
@@ -39,11 +39,10 @@
     width:100%; padding:12px; border-radius:10px; border:1px solid var(--border);
     background:var(--bg); color:var(--text); font-size:1rem; margin:12px 0; text-align:center;
   }
-  .login-box button, .btn-submit, .btn-danger{
+  .login-box button, .btn-submit{
     width:100%; padding:12px; border-radius:10px; border:none;
     background:var(--accent); color:#fff; font-weight:600; font-size:1rem; cursor:pointer;
   }
-  .btn-danger{background:#b3261e; margin-top:10px;}
   .error-msg{color:var(--red-tx); font-size:0.85rem; margin-top:8px;}
 
   .card{
@@ -58,6 +57,13 @@
   .block{border-top:1px solid var(--border); padding-top:12px;}
   .block .label{margin-bottom:6px;}
   .block p{margin:0; font-size:0.92rem; line-height:1.45;}
+  
+  .detail-section{
+    background:var(--bg); border:1px solid var(--border); border-radius:10px;
+    padding:12px 14px; margin-top:8px;
+  }
+  .detail-section ul{margin:0; padding-left:18px; font-size:0.88rem; line-height:1.4;}
+  .detail-section li{margin-bottom:6px;}
 
   .green{background:var(--green-bg); color:var(--green-tx);}
   .yellow{background:var(--yellow-bg); color:var(--yellow-tx);}
@@ -65,7 +71,7 @@
 
   .suggest{
     background:var(--card); border:1px solid var(--border);
-    border-radius:14px; padding:20px; margin-bottom:16px;
+    border-radius:14px; padding:20px;
   }
   .suggest h3{margin:0 0 10px; font-size:1.05rem;}
   .suggest p{margin:0 0 14px; font-size:0.88rem; color:var(--muted);}
@@ -74,15 +80,6 @@
     background:var(--bg); color:var(--text); padding:10px; font-family:inherit; font-size:0.9rem;
     resize:vertical; margin-bottom:12px;
   }
-  .saved-alert{color:var(--green-tx); font-weight:600; font-size:0.88rem; text-align:center; min-height:20px;}
-
-  .admin-sug-item{
-    background:var(--bg); border:1px solid var(--border); border-radius:10px;
-    padding:12px 14px; margin-bottom:12px; text-align:left;
-  }
-  .admin-sug-item .date{font-size:0.75rem; color:var(--muted); margin-bottom:6px; font-weight:700;}
-  .admin-sug-item .text{font-size:0.92rem; line-height:1.4;}
-
   .logout-btn{
     background:none; border:none; color:var(--muted); text-decoration:underline;
     font-size:0.85rem; cursor:pointer; margin-top:16px; width:100%; text-align:center;
@@ -99,44 +96,27 @@
   <!-- Login View -->
   <div id="loginView" class="login-box">
     <h3>Ingresá tu código de acceso</h3>
-    <p style="color:var(--muted); font-size:0.88rem;">Escribí tu clave personal para acceder al panel.</p>
+    <p style="color:var(--muted); font-size:0.88rem;">Escribí tu clave personal para acceder a tu devolución individual.</p>
     <input type="password" id="accessCode" placeholder="Código de acceso…">
     <button onclick="login()">Ingresar al Panel</button>
     <div id="errorMsg" class="error-msg"></div>
   </div>
 
-  <!-- Content View (Asesoras: Abby y Vicky) -->
+  <!-- Content View (Hidden by default) -->
   <div id="contentView" style="display:none;">
     <div id="cardContainer"></div>
 
+    <!-- Formulario exclusivo de sugerencias hacia milagros.teclab@gmail.com -->
     <div class="suggest">
       <h3>Propuestas e ideas para el Área de Calidad</h3>
-      <p>Espacio 100% anónimo para enviar sugerencias de mejora sobre gestiones o procesos del equipo.</p>
-      <textarea id="sugerenciaTexto" placeholder="Escribí acá tus propuestas de mejora para Calidad…"></textarea>
-      <button class="btn-submit" onclick="guardarSugerenciaAnonima()">Enviar sugerencia anónima</button>
-      <div id="msgConfirm" class="saved-alert"></div>
-    </div>
-
-    <button class="logout-btn" onclick="logout()">Cerrar sesión / Salir</button>
-  </div>
-
-  <!-- Admin View (Buzón Exclusivo para Vos) -->
-  <div id="adminView" style="display:none;">
-    <div class="card">
-      <div class="row">
-        <h2 style="margin:0;">Buzón de Calidad (Administración)</h2>
-        <span class="badge green">Exclusivo</span>
-      </div>
-      <p style="margin:0; font-size:0.9rem; color:var(--muted);">
-        A continuación podés ver todas las sugerencias enviadas por el equipo de forma anónima.
-      </p>
+      <p>Espacio confidencial para enviar sugerencias de mejora directas sobre tus gestiones o procesos del área.</p>
       
-      <div class="block">
-        <div class="label" style="margin-bottom:12px;">Sugerencias Recibidas</div>
-        <div id="adminSugerenciasList"></div>
-      </div>
-
-      <button class="btn-danger" onclick="borrarSugerencias()">Borrar historial de sugerencias</button>
+      <form action="https://formspree.io/f/TU_FORM_ID" method="POST" id="qualityForm">
+        <input type="hidden" name="asesora" id="formAsesoraName">
+        <input type="hidden" name="_to" value="milagros.teclab@gmail.com">
+        <textarea name="sugerencia_calidad" placeholder="Escribí acá tus propuestas de mejora para el área de Calidad…" required></textarea>
+        <button type="submit" class="btn-submit">Enviar sugerencia a Calidad</button>
+      </form>
     </div>
 
     <button class="logout-btn" onclick="logout()">Cerrar sesión / Salir</button>
@@ -145,25 +125,118 @@
 
 <script>
 const asesoresData = {
-  "abby2026": {
-    nombre: "ABBY",
-    calidad: 75,
-    llamadasDia: 108,
-    ventas: 6.5,
-    prioridad: "BAJA",
-    plan: "INDAGAR-REBATIR OBJECION-PUSH DE CIERRE-SEGUIMIENTO AGRESIVO",
-    aplica: "SI",
-    recursos: "REVISION DIARIA DE SU ACTIVIDAD"
+  "cielo2026": {
+    nombre: "CIELO",
+    calidad: 65,
+    llamadasDia: 70,
+    ventas: 4,
+    prioridad: "ALTA",
+    plan: "ENFOCADO EN INDAGACION-RECONTACTO PAUTADO-DIFERENCIALES- PUSH DE CIERRE MAS AGRESIVO.",
+    aplica: "INTERMITENTE. SUBE SU CALIDAD POR APLICARLO PERO LA BAJA CUANDO NO LOGRA APLICARLO",
+    recursos: "PLAN DE ACCION PERSONALIZADO-UNA IA ESPECIFICA PARA QUE PUEDA VER DE MANERA PRACTICA Y RAPIDA LOS DETALLES DE LAS CARRERAS- CONTROL CASI DIARIO DE SUS POTABLES Y SUS POTABLES",
+    guiaDetalle: {
+      titulo: "Plan Específico de Acción (Septiembre)",
+      bloques: [
+        {
+          nombre: "Indagación y Diferenciales",
+          items: [
+            "<strong>Indagar tiempos:</strong> \"¿Cuáles son tus horarios disponibles para estudiar? / ¿Podés estudiar por la mañana, tarde o noche?\"",
+            "<strong>Prácticas Profesionales:</strong> \"Contamos con la posibilidad de que te recibas con experiencia en el área mediante nuestras prácticas profesionales en tu último año.\"",
+            "<strong>Diferenciales Carrera / Universidad:</strong> Mencionar Título intermedio, Doble titulación, Centro de empleabilidad, Centro de internacionalización y Aprendizaje basado en competencias."
+          ]
+        },
+        {
+          nombre: "Cierre, Equivalencias y Pautado",
+          items: [
+            "<strong>Equivalencias:</strong> Pedir número de plan de estudios o año en la llamada. Comentar la situación académica si se inscribe ahora (comenzar a cursar mientras se resuelve el trámite en 30 días).",
+            "<strong>Recontacto Pautado:</strong> \"Te comparto la información a tu WhatsApp, me comunico nuevamente mañana a las 12hs para evaluar y aprovechar el descuento.\"",
+            "<strong>Fidelización:</strong> \"Me podés agendar como Cielo Siglo21. En caso de que otra persona se comunique del call, desestimá la consulta para que estemos en contacto únicamente nosotros.\""
+          ]
+        }
+      ]
+    }
   },
-  "vicky2026": {
-    nombre: "VICKY",
-    calidad: 73,
-    llamadasDia: 60,
-    ventas: 6.5,
-    prioridad: "BAJA",
-    plan: "INDAGAR-REBATIR- PUSH DE CIERRE- SEGUIMIENTO AGRESIVO",
+  "mica2026": {
+    nombre: "MICA",
+    calidad: 77,
+    llamadasDia: 61,
+    ventas: 8.5,
+    prioridad: "MEDIA",
+    plan: "ENFOCADO EN ASOCIACION Y PUSH DE CIERRE MEDIANTE PRE",
     aplica: "SI",
-    recursos: "REVISION DIARIA DE SU ACTIVIDAD"
+    recursos: "PLAN DE ACCION PERSONALIZADO-IA PARA UNA MEJOR GESTION",
+    guiaDetalle: {
+      titulo: "Manejo de Objeciones y Protocolo PRE",
+      bloques: [
+        {
+          nombre: "Manejo Estratégico de Objeciones (Escuchar → Profundizar → Asociar → Rebatir → Visualizar → Cerrar)",
+          items: [
+            "<strong>Sin tiempo (Laboral/Personal):</strong> Indagar origen. Transmitir cursada flexible, progresiva (2/3 materias cada 2 meses) y acompañamiento de coaches.",
+            "<strong>Edad avanzada:</strong> Resaltar ejemplos reales (alumnos de +65 años) y posibilidades de inserción mediante la bolsa de empleo.",
+            "<strong>Indecisión o Dudas Económicas:</strong> Remarcar estabilidad en cuotas, solo 2 variaciones anuales y beneficios vigentes de matrícula."
+          ]
+        },
+        {
+          nombre: "Cierre y Canal Único",
+          items: [
+            "<strong>Protocolo PRE:</strong> Si le gusta la propuesta/arancel y tiene TC o medios de pago, tomar PRE en llamada y probar admisión inmediatamente.",
+            "<strong>Contacto Único:</strong> \"Agendame como Mica Siglo21. Quedate tranquilo/a que yo voy a acompañarte durante todo el proceso para resolver cualquier duda.\""
+          ]
+        }
+      ]
+    }
+  },
+  "gabi2026": {
+    nombre: "GABI",
+    calidad: 75,
+    llamadasDia: 63,
+    ventas: 4.5,
+    prioridad: "MEDIA-ALTA",
+    plan: "ENFOCADO EN REGULARIZAR SU CALIDAD DE LLAMADO-DIVERSIFICAR SU ORIGEN DE NI",
+    aplica: "CUMPLE CORRECCION DE LLAMADAS- LE CUESTA DIVERSIFICAR ORIGEN",
+    recursos: "CORRECCIONES DURANTE EL DIA MEDIANTE LLAMADA Y BASES",
+    guiaDetalle: null
+  },
+  "cami2026": {
+    nombre: "CAMI",
+    calidad: 69,
+    llamadasDia: 67,
+    ventas: 4,
+    prioridad: "ALTA",
+    plan: "ENFOCADO EN MANTENER SU FORTALEZAS DURANTE LA LLAMADA Y TRASLADARLO AL MENSAJE. SOBRETODO EN LA DIVERSIFICACION DE SUS NI Y CORREGIR SU DESCARTE.",
+    aplica: "PIDE INDICACIONES CONSTANTEMENTE-CUMPLE CON SU APLICACION-DEBEMOS.",
+    recursos: "PLAN DE ACCION PERSONALIZADO-REVISION DE SU DESCARTE- RMK PROPIO-BASES DE TECLAB-CORRECCION DE SU GESTION Y MADURACION DE LOS LEADS",
+    guiaDetalle: {
+      titulo: "Guía de Conexión, Asociación y Cierre",
+      bloques: [
+        {
+          nombre: "Asociación Según Perfil del Lead",
+          items: [
+            "<strong>Sin experiencia previa:</strong> Enfatizar que la carrera es progresiva con materias introductorias + prácticas profesionales para ganar experiencia.",
+            "<strong>Con experiencia previa:</strong> Explicar que profesionalizará su conocimiento con títulos universitarios avalados sin afectar sus horarios actuales.",
+            "<strong>Motivo (Cambiar de carrera):</strong> Resaltar la carga justa de 2/3 materias cada dos meses para probar modalidad y avanzar a paso firme."
+          ]
+        },
+        {
+          nombre: "Herramientas y Decisiones en Llamada",
+          items: [
+            "<strong>Uso de IA de BC:</strong> Integración de la herramienta IA para consultar y transmitir rápida y de forma clara la información de carreras.",
+            "<strong>Acción según respuesta:</strong> Tomar PRE por llamada si el lead está convencido pero requiere consultar o evaluar detalles concretos."
+          ]
+        }
+      ]
+    }
+  },
+  "mile2026": {
+    nombre: "MILE",
+    calidad: 70,
+    llamadasDia: 53,
+    ventas: 6,
+    prioridad: "MEDIA",
+    plan: "AUMENTAR EL VOLUMEN DE LLAMADOS- RMK PROPIO-INDAGACION Y CIERRE CON PRE",
+    aplica: "LE CUESTA SEGUIR INDICACIONES DIRECTAS SOBRE EL CAMIBIO EN SU GESTION- APLICA LAS CORRECCIONES DURANTE LA LLAMADA Y LAS CORRECCIONES GENERALES",
+    recursos: "CORRECCIONES DIARIAS SOBRE SU GESTION-BASES",
+    guiaDetalle: null
   }
 };
 
@@ -174,7 +247,7 @@ function calidadClass(v){
 }
 function prioridadClass(p){
   if(p.includes("ALTA")) return "red";
-  if(p.includes("MEDIA")) return "yellow";
+  if(p.includes("MEDIA-ALTA")) return "yellow";
   return "green";
 }
 
@@ -182,31 +255,47 @@ function login(){
   const code = document.getElementById("accessCode").value.trim().toLowerCase();
   const errorMsg = document.getElementById("errorMsg");
   
-  if(code === "admin2026"){
+  if(asesoresData[code]){
     errorMsg.textContent = "";
-    localStorage.setItem("user_code_panel2", "admin2026");
-    showAdminPanel();
-  } else if(asesoresData[code]){
-    errorMsg.textContent = "";
-    localStorage.setItem("user_code_panel2", code);
+    localStorage.setItem("user_code", code);
     showUserPanel(asesoresData[code]);
   } else {
-    errorMsg.textContent = "Código incorrecto. Verificá tu clave de acceso.";
+    errorMsg.textContent = "Código incorrecto. Verificá con Calidad tu clave personal.";
   }
 }
 
 function logout(){
-  localStorage.removeItem("user_code_panel2");
+  localStorage.removeItem("user_code");
   document.getElementById("contentView").style.display = "none";
-  document.getElementById("adminView").style.display = "none";
   document.getElementById("loginView").style.display = "block";
   document.getElementById("accessCode").value = "";
 }
 
 function showUserPanel(a){
   document.getElementById("loginView").style.display = "none";
-  document.getElementById("adminView").style.display = "none";
   document.getElementById("contentView").style.display = "block";
+  document.getElementById("formAsesoraName").value = a.nombre;
+
+  let guiaHTML = '';
+  if(a.guiaDetalle){
+    let bloquesHTML = '';
+    a.guiaDetalle.bloques.forEach(b => {
+      let itemsHTML = b.items.map(it => `<li>${it}</li>`).join('');
+      bloquesHTML += `
+        <div style="margin-top:8px;">
+          <strong style="font-size:0.85rem; color:var(--text);">${b.nombre}:</strong>
+          <ul style="margin-top:4px;">${itemsHTML}</ul>
+        </div>
+      `;
+    });
+
+    guiaHTML = `
+      <div class="block">
+        <div class="label">${a.guiaDetalle.titulo}</div>
+        <div class="detail-section">${bloquesHTML}</div>
+      </div>
+    `;
+  }
 
   document.getElementById("cardContainer").innerHTML = `
     <div class="card">
@@ -240,76 +329,14 @@ function showUserPanel(a){
         <div class="label">Recursos</div>
         <p>${a.recursos}</p>
       </div>
+      ${guiaHTML}
     </div>
   `;
 }
 
-function guardarSugerenciaAnonima(){
-  const txtBox = document.getElementById("sugerenciaTexto");
-  const msgConfirm = document.getElementById("msgConfirm");
-  const val = txtBox.value.trim();
-
-  if(!val){
-    alert("Por favor, escribí un comentario antes de enviar.");
-    return;
-  }
-
-  let historial = JSON.parse(localStorage.getItem("sugerencias_panel2_anonimas") || "[]");
-  const nuevaSug = {
-    fecha: new Date().toLocaleString("es-AR"),
-    texto: val
-  };
-
-  historial.push(nuevaSug);
-  localStorage.setItem("sugerencias_panel2_anonimas", JSON.stringify(historial));
-
-  txtBox.value = "";
-  msgConfirm.textContent = "✓ Tu sugerencia fue enviada de forma 100% anónima.";
-  setTimeout(() => { msgConfirm.textContent = ""; }, 4000);
-}
-
-function showAdminPanel(){
-  document.getElementById("loginView").style.display = "none";
-  document.getElementById("contentView").style.display = "none";
-  document.getElementById("adminView").style.display = "block";
-
-  renderAdminSugerencias();
-}
-
-function renderAdminSugerencias(){
-  const container = document.getElementById("adminSugerenciasList");
-  let historial = JSON.parse(localStorage.getItem("sugerencias_panel2_anonimas") || "[]");
-
-  if(historial.length === 0){
-    container.innerHTML = '<p style="font-size:0.9rem; color:var(--muted);">Aún no hay sugerencias enviadas.</p>';
-    return;
-  }
-
-  let html = '';
-  historial.slice().reverse().forEach(s => {
-    html += `
-      <div class="admin-sug-item">
-        <div class="date">Enviada el: ${s.fecha}</div>
-        <div class="text">${s.texto}</div>
-      </div>
-    `;
-  });
-
-  container.innerHTML = html;
-}
-
-function borrarSugerencias(){
-  if(confirm("¿Estás segura de que querés borrar todas las sugerencias recibidas?")){
-    localStorage.removeItem("sugerencias_panel2_anonimas");
-    renderAdminSugerencias();
-  }
-}
-
-// Auto-login al refrescar
-const savedCode = localStorage.getItem("user_code_panel2");
-if(savedCode === "admin2026"){
-  showAdminPanel();
-} else if(savedCode && asesoresData[savedCode]){
+// Auto-login si ya ingresó clave anteriormente en el dispositivo
+const savedCode = localStorage.getItem("user_code");
+if(savedCode && asesoresData[savedCode]){
   showUserPanel(asesoresData[savedCode]);
 }
 </script>
